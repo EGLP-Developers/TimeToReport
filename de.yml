@@ -1,0 +1,9 @@
+already-reported: {prefix}§cDu hast den Spieler bereits reportet
+console-error: {prefix}§cNur Spieler können diesen Command verwenden
+successfully-reported: {prefix}§aDu hast den Spieler §b{reported} §afür §b{reason} reportet
+receive-reports: {prefix}§aDu erhältst nun Benachrichtigung zu neuen Reports
+report-received: §a§lNeuer Report
+no-reports: {prefix}§cEs existieren keine Reports
+not-receive-reports: {prefix}§cDu erhältst nun keine Benachrichtigung zu neuen Reports
+kick-msg: §7Du wurdest von einem Administrator für {reason} gekickt
+cannot-selfreport: {prefix}§cDu kannst dich nicht selber Reporten

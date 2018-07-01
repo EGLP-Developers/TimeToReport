@@ -1,0 +1,33 @@
+# The {prefix} placeholder to be used in messages
+prefix: §bTimeToReport §7| §f
+# Defines the language file to use for messages. Default locale: en. Available locales: de, en (+ custom {locale}.yml files)
+locale: en
+# An update is available :O
+check-for-updates: true
+# A STATUS OwO. There needs to be at least one status message to be used as the default one
+report-statuses: 
+  - §a§lNew Report
+  - §eIn progress
+  - §cMust be handled by an owner
+# Reasons players can select when reporting a player
+report-reasons: 
+  - {
+    name: Hacking
+    item: 
+      type: BOW
+  }
+  - {
+    name: Bugusing
+    item: 
+      type: GOLDEN_APPLE
+  }
+  - {
+    name: Inappropriate language
+    item: 
+      type: DISPENSER
+  }
+  - {
+    name: Spamming
+    item: 
+      type: PAPER
+  }
