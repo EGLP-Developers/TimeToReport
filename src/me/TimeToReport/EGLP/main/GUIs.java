@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
-import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -14,6 +13,7 @@ import org.bukkit.inventory.meta.SkullMeta;
 
 import me.mrletsplay.mrcore.bukkitimpl.GUIUtils.GUI;
 import me.mrletsplay.mrcore.bukkitimpl.GUIUtils.GUIBuildEvent;
+import me.mrletsplay.mrcore.bukkitimpl.GUIUtils.GUIBuildPageItemEvent;
 import me.mrletsplay.mrcore.bukkitimpl.GUIUtils.GUIBuilder;
 import me.mrletsplay.mrcore.bukkitimpl.GUIUtils.GUIBuilderMultiPage;
 import me.mrletsplay.mrcore.bukkitimpl.GUIUtils.GUIElement;
@@ -22,6 +22,7 @@ import me.mrletsplay.mrcore.bukkitimpl.GUIUtils.GUIMultiPage;
 import me.mrletsplay.mrcore.bukkitimpl.GUIUtils.ItemSupplier;
 import me.mrletsplay.mrcore.bukkitimpl.GUIUtils.StaticGUIElement;
 import me.mrletsplay.mrcore.bukkitimpl.ItemUtils;
+import me.mrletsplay.mrcore.bukkitimpl.versioned.VersionedDyeColor;
 
 public class GUIs {
 	
@@ -77,13 +78,13 @@ public class GUIs {
 			}
 		});
 		
-		builder.addPreviousPageItem(48, ItemUtils.createItem(ItemUtils.arrowLeft(DyeColor.WHITE), previousPage()));
-		builder.addNextPageItem(52, ItemUtils.createItem(ItemUtils.arrowRight(DyeColor.WHITE), nextPage()));
+		builder.addPreviousPageItem(48, ItemUtils.createItem(ItemUtils.arrowLeft(VersionedDyeColor.WHITE), previousPage()));
+		builder.addNextPageItem(52, ItemUtils.createItem(ItemUtils.arrowRight(VersionedDyeColor.WHITE), nextPage()));
 		
 		builder.setSupplier(new ItemSupplier<Report>() {
 			
 			@Override
-			public GUIElement toGUIElement(GUIBuildEvent event, Report item) {
+			public GUIElement toGUIElement(GUIBuildPageItemEvent event, Report item) {
 				return new GUIElement() {
 					
 					@SuppressWarnings("deprecation")
@@ -92,10 +93,10 @@ public class GUIs {
 						OfflinePlayer reporter = Bukkit.getOfflinePlayer(item.getReporter());
 						OfflinePlayer reported = Bukkit.getOfflinePlayer(item.getReported());
 						
-						ItemStack skull = ItemUtils.createItem(Material.SKULL_ITEM, 1, 3, Messages.getGUIString(base + "skull.title", "repored", reported.getName()), 
+						ItemStack skull = ItemUtils.createItem(Material.SKULL_ITEM, 1, 3, Messages.getGUIString(base + "skull.title", "reported", reported.getName()), 
 								Messages.getGUIString(base + "skull.lore.reported-by", "reporter", reporter.getName()),
 								Messages.getGUIString(base + "skull.lore.reason", "reason", item.getReason().getName()),
-								Messages.getGUIString(base + "skull.lore.status", "reason", item.getStatus()));
+								Messages.getGUIString(base + "skull.lore.status", "status", item.getStatus()));
 						SkullMeta sM = (SkullMeta) skull.getItemMeta();
 						sM.setOwner(reported.getName());
 						skull.setItemMeta(sM);
@@ -128,7 +129,7 @@ public class GUIs {
 		builder.addElement(10, new GUIElement() {
 			@Override
 			public ItemStack getItem(GUIBuildEvent event) {
-				Report report = (Report) event.getHolder().getProperty(Main.pl, "report");
+				Report report = (Report) event.getGUIHolder().getProperty(Main.pl, "report");
 				
 				return ItemUtils.createItem(Material.DISPENSER, 1, 0, Messages.getGUIString(base + "dispenser.title"), 
 						  Messages.getGUIString(base + "dispenser.lore.reporter", "reporter", report.getReportingPlayer().getName()),
@@ -175,7 +176,7 @@ public class GUIs {
 			
 			@Override
 			public ItemStack getItem(GUIBuildEvent event) {
-				Report report = (Report) event.getHolder().getProperty(Main.pl, "report");
+				Report report = (Report) event.getGUIHolder().getProperty(Main.pl, "report");
 				return ItemUtils.createItem(Material.DIAMOND_SWORD, 1, 0, Messages.getGUIString(base + "kill.title"), (report.getReportedPlayer().isOnline()?"":playerIsOffline()));
 			}
 		}.setAction(e -> {
@@ -190,7 +191,7 @@ public class GUIs {
 			
 			@Override
 			public ItemStack getItem(GUIBuildEvent event) {
-				Report report = (Report) event.getHolder().getProperty(Main.pl, "report");
+				Report report = (Report) event.getGUIHolder().getProperty(Main.pl, "report");
 				return ItemUtils.createItem(Material.BOW, 1, 0, Messages.getGUIString(base + "kick.title"), (report.getReportedPlayer().isOnline()?"":playerIsOffline()));
 			}
 		}.setAction(e -> {
@@ -206,7 +207,7 @@ public class GUIs {
 			
 			@Override
 			public ItemStack getItem(GUIBuildEvent event) {
-				Report report = (Report) event.getHolder().getProperty(Main.pl, "report");
+				Report report = (Report) event.getGUIHolder().getProperty(Main.pl, "report");
 				return ItemUtils.createItem(Material.BLAZE_ROD, 1, 0, Messages.getGUIString(base + "teleport.title"), (report.getReportedPlayer().isOnline()?"":playerIsOffline()));
 			}
 		}.setAction(e -> {
@@ -225,7 +226,7 @@ public class GUIs {
 			
 			@Override
 			public ItemStack getItem(GUIBuildEvent event) {
-				Report report = (Report) event.getHolder().getProperty(Main.pl, "report");
+				Report report = (Report) event.getGUIHolder().getProperty(Main.pl, "report");
 				return ItemUtils.createItem(Material.BEACON, 1, 0, Messages.getGUIString(base + "status.title", "status", report.getStatus()), Messages.getGUIString(base + "status.lore"));
 			}
 		}.setAction(e -> {
@@ -288,7 +289,7 @@ public class GUIs {
 		builder.setSupplier(new ItemSupplier<ReportReason>() {
 			
 			@Override
-			public GUIElement toGUIElement(GUIBuildEvent event, ReportReason reason) {
+			public GUIElement toGUIElement(GUIBuildPageItemEvent event, ReportReason reason) {
 				return new StaticGUIElement(ItemUtils.createItem(reason.getIcon(), Messages.getGUIString(base + "reasons", "reason", reason.getName()))).setAction(e -> {
 					UUID uReporter = (UUID) e.getGUIHolder().getProperty(Main.pl, "player-reporter");
 					OfflinePlayer reporter = Bukkit.getOfflinePlayer(uReporter);
@@ -318,23 +319,23 @@ public class GUIs {
 	}
 	
 	private static String nextPage() {
-		return Messages.getGUIString("gui.next-page");
+		return Messages.getGUIString("next-page");
 	}
 	
 	private static String previousPage() {
-		return Messages.getGUIString("gui.previous-page");
+		return Messages.getGUIString("previous-page");
 	}
 	
 	private static String back() {
-		return Messages.getGUIString("gui.back");
+		return Messages.getGUIString("back");
 	}
 	
 	private static String playerIsOnline() {
-		return Messages.getGUIString("gui.player-online");
+		return Messages.getGUIString("player-online");
 	}
 	
 	private static String playerIsOffline() {
-		return Messages.getGUIString("gui.player-offline");
+		return Messages.getGUIString("player-offline");
 	}
 
 }

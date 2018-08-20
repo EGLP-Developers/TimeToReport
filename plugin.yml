@@ -1,5 +1,5 @@
 name: TimeToReport
-version: 1.2
+version: 1.4
 authors: [MrLetsplay2003, Endergame15]
 main: me.TimeToReport.EGLP.main.Main
 softdepend: [MrCore_BukkitImpl]
